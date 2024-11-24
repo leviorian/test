@@ -1,0 +1,227 @@
+public class FlightReservation {
+    private int passengerId;
+    private String seatClass;
+    private double flightDuration;
+    private String seatNumber;
+    private int flyCardPoints;
+
+    public FlightReservation(int passengerId, String seatClass,double flightDuration, String seatNumber, int flyCardPoints){
+        this.passengerId= passengerId;
+        this.seatClass = seatClass;
+        this.flightDuration = flightDuration;
+        this.seatNumber = seatNumber;
+        this.flyCardPoints = flyCardPoints;
+    }
+
+    public boolean isUpgraded( String seatClass, double flightDuration){
+        if (this.seatClass.charAt(0) == "T" && flightDuration > 10 || this.seatClass.charAt(0) == "B" && this.flightDuration > 6.5){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public int calculateFare(String seatNumber){
+        int price_card=0;
+        if(this.seatNumber.charAt(0) =="T"){
+            price_card = 500;
+            if (this.seatNumber.charAt(2) == "3" || this.seatNumber.charAt(2) == "4"){
+                price_card=450;
+                if (this.flyCardPoints >10){
+                    int disscount= this.flyCardPoints / 10;
+                    price_card = price_card - disscount;
+                }
+            }
+        } else if (this.seatNumber.charAt(0) == "B"){
+            price_card = 1000;
+            if (this.flyCardPoints >10){
+                int disscount= this.flyCardPoints / 10;
+                price_card = price_card - disscount;
+            }
+        }
+        else if(this.seatNumber.charAt(0) =="1"){
+            price_card=2000;
+            if (this.flyCardPoints >10){
+                int disscount= this.flyCardPoints / 10;
+                price_card = price_card - disscount;
+            }
+        }
+
+    }
+    public static int totalMoney(FlightReservation[] reservations){
+        int total=0;
+        for (int i = 0; i < reservations.length; i++) {
+            FlightReservation reservation = reservations[i];
+            if (reservation.isUpgraded()) {
+                total += reservation.calculateFare();
+            }
+        }
+
+        return total;
+
+    }
+
+
+
+}
+
+//הפעולה totalMoney כוללת לולאה יחידה העוברת על כל האובייקטים במערך, ובכל איטרציה מתבצעות פעולות בעלות זמן ריצה קבוע. לכן, זמן הריצה הכולל של הפעולה תלוי ישירות במספר האובייקטים במערך, והסיבוכיות היא
+//𝑂(𝑛)
+//n כאשר n הוא מספר האובייקטים במערך reservations.
+
+
+
+
+
+
+
+
+
+public class Animal {
+    private final String name;
+    private final double weight;
+    private final boolean isFriendly;
+    private final boolean isMammal;
+    private final String type;
+    public Animal(String name, double weight, boolean isFriendly, boolean isMammal, String type){
+        this.name=name;
+        this.weight=weight;
+        this.isFriendly=isFriendly;
+        this.isMammal=isMammal;
+        this.type=type;
+    }
+    public Animal(Animal other){ //בנאי העתקה
+        this.name=other.name;
+        this.weight=other.weight;
+        this.isFriendly=other.isFriendly;
+        this.isMammal=other.isMammal;
+        this.type=other.type;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public static void main(String[] args) {
+        Animal myAnimal = new Animal("Lion", 190.5, true, true, "Mammal");
+        System.out.println("Animal Name: " + myAnimal.getName());
+    }
+}
+class zoo{
+    private final Animal[] animals;
+    public zoo(String name) {
+        this.animals = new Animal[632];
+    }
+    public int animalCount(){
+        int count=0;
+        for (Animal animal : animals) {
+            if (animal == null) {
+                count++;
+            }
+        }
+        return count;
+    }
+    public int EmptyCages() {
+        int count = 0;
+        for (Animal animal : animals) {
+            if (animal == null) {
+                count++;
+            }
+        }
+        return count;
+    }
+    public static void main(String[] args) {
+        zoo myzoo = new zoo("My Zoo");
+
+        System.out.println("Animal Count: " + myzoo.animalCount());
+        System.out.println("Empty Cages Count: " + myzoo.EmptyCages());
+
+        myzoo.animals[0] = new Animal("Tiger", 220.5, true, true, "Mammal");
+        System.out.println("Animal Count: " + myzoo.animalCount());
+        System.out.println("Empty Cages Count: " + myzoo.EmptyCages());
+    }
+}
+
+
+
+
+
+public class TourPackage {
+    private final int id;
+    private final int price;
+    private final int maxTime;
+    private final int maxDeta;
+    private final int extra;
+
+    public TourPackage(int id, int price, int maxTime, int maxDeta){
+        this.id = id;
+        this.price=price;
+        this.maxTime = maxTime;
+        this.maxDeta = maxDeta;
+        this.extra = 0;
+
+    }
+
+    public void setExtra(int minutes, int usage){//כשלא מבקשים להחזיר משהו מהפונקציה רושמים void
+        if (minutes > this.maxTime){
+            this.extra += minutes-this.maxTime;
+        }
+        if (usage > this.maxDeta){
+            this.extra += ((usage-this.maxDeta) *2);
+        }
+    }
+    public static int calculate(TourPackage[] packages){
+        int count =0;
+        for (int i=0; i<packages.length; i++){
+            if(packages[i].getextra()>0);//שימוש בget כי זו פעולה חיצונית
+            count++;
+        }return count;
+    }
+    public static int[] costumers(TourPackage[] packages){
+        int count = calculate(packages);
+        int[] ids = new int[count];
+        int j=0;
+        for(int i=0; i<packages.length; i++){
+            if(packages[i].getextra()>0){
+                ids[j] = packages[i].getid();
+                j++;
+            }
+        }
+        return ids;
+    }
+}
+
+
+
+
+
+public class Swimmer {
+    private String name;
+    private double time;
+
+    public Swimmer(String name, double time){
+        this.name=name;
+        this.time=time;
+    }
+
+    public static void printWinner(Swimmer[] swimmers){
+        if (swimmers.length == 0) {
+            System.out.println("No swimmers available.");
+            return;
+        }
+        Swimmer winner = swimmers[0];
+        // לולאה למציאת השחיין עם הזמן הקצר ביותר
+        for (int i = 1; i < swimmers.length; i++) {
+            if (swimmers[i].getTime() < winner.getTime()) {
+                winner = swimmers[i];
+            }
+        }    // חילוץ הזמן בפורמט דקות:שניות
+        double time = winner.getTime();
+        int minutes = (int) time; // החלק השלם הוא הדקות
+        int seconds = (int) Math.round((time - minutes) * 60);
+
+        String result = winner.getName() + ", " + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
+
+// הדפסת התוצאה
+        System.out.println(result);
+    }
+}
